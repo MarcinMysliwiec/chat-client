@@ -17,11 +17,13 @@ const App = () => {
         .configureLogging(LogLevel.Information)
         .build();
 
-      connection.on("ReceiveMessage", (user, message) => {
-        setMessages(messages => [...messages, { user, message }]);
+      connection.on("ReceiveMessage", (user, message, type) => {
+        console.log("ReceiveMessage", { user, message, type});
+        setMessages(messages => [...messages, { user, message, type }]);
       });
 
       connection.on("UsersInRoom", (users) => {
+        console.log(users);
         setUsers(users);
       });
 

@@ -1,4 +1,6 @@
 import { useEffect, useRef } from "react";
+import UserMessage from "./UserMessage";
+import SysMessage from "./SysMessage";
 
 const Messages = ({ messages }) => {
   const messageRef = useRef();
@@ -11,11 +13,17 @@ const Messages = ({ messages }) => {
   }, [messages]);
 
   return <div ref={messageRef} className="message-container">
-    {messages.map((m, index) =>
-      <div key={index} className="user-message">
-        <div className="message bg-primary">{m.message}</div>
-        <div className="from-user">{m.user}</div>
-      </div>
+    {messages.map((msg, index) =>
+      // <div className='user-message'>
+      //   <div className="message bg-primary">{msg.message}</div>
+      //   <div className="from-user">{msg.user}</div>
+      // </div>
+      {
+        return msg.type === "Message"
+        ? <UserMessage msg={msg} key={index} />
+        : <SysMessage msg={msg} key={index} />
+      }
+
     )}
   </div>
 }
