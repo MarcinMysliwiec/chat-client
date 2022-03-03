@@ -1,41 +1,46 @@
-import { useState } from "react";
-import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
+import { useState} from "react";
+import io from "socket.io-client";
 import Lobby from "./components/Lobby";
 import Chat from "./components/Chat";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+const URL = "http://localhost";
+const PORT = 3001
+
 const App = () => {
-  const [connection, setConnection] = useState();
+  const [socket, setSocket] = useState();
   const [messages, setMessages] = useState([]);
+  const [userData, setUserData] = useState({});
   const [users, setUsers] = useState([]);
 
-  const joinRoom = async (user, room) => {
-    try {
-      const connection = new HubConnectionBuilder()
-        .withUrl("http://localhost:5000/chat")
-        .configureLogging(LogLevel.Information)
-        .build();
+  const pushMessage = (msgObj) => {
+    setMessages(messages => [...messages, msgObj]);
+  }
 
-      connection.on("ReceiveMessage", (user, message, type) => {
-        console.log("ReceiveMessage", { user, message, type});
-        setMessages(messages => [...messages, { user, message, type }]);
+  const joinRoom = async (username, room) => {
+    try {
+      const socket = io.connect(`${URL}:${PORT}`);
+
+      socket.on("receive_message", (msgObj) => {
+        console.log("receive_message", msgObj)
+        pushMessage(msgObj);
       });
 
-      connection.on("UsersInRoom", (users) => {
-        console.log(users);
+      socket.on("users_in_room", (users) => {
+        console.log("users_in_room", users)
         setUsers(users);
       });
 
-      connection.onclose(e => {
-        setConnection();
+      socket.on("disconnect", () => {
+        setSocket();
         setMessages([]);
+        setUserData({});
         setUsers([]);
       });
 
-      await connection.start();
-      await connection.invoke("JoinRoom", { user, room });
-      setConnection(connection);
+      socket.emit("join_room", {username, room});
+      setSocket(socket);
     } catch (e) {
       console.log(e);
     }
@@ -43,7 +48,14 @@ const App = () => {
 
   const sendMessage = async (message) => {
     try {
-      await connection.invoke("SendMessage", message);
+      const msgObj = {
+        room: userData.room,
+        author: {name: userData.username, is_bot: false},
+        message: message,
+        time: new Date().toISOString()
+      }
+      socket.emit("send_message", msgObj);
+      pushMessage(msgObj);
     } catch (e) {
       console.log(e);
     }
@@ -51,7 +63,7 @@ const App = () => {
 
   const closeConnection = async () => {
     try {
-      await connection.stop();
+      socket.disconnect();
     } catch (e) {
       console.log(e);
     }
@@ -60,9 +72,10 @@ const App = () => {
   return <div className="app">
     <h2>MyChat</h2>
     <hr className="line"/>
-    {!connection
-      ? <Lobby joinRoom={joinRoom}/>
-      : <Chat sendMessage={sendMessage} messages={messages} users={users} closeConnection={closeConnection}/>}
+    {!socket
+      ? <Lobby joinRoom={joinRoom} setUserData={setUserData}/>
+      : <Chat sendMessage={sendMessage} messages={messages} users={users} setUsers={setUsers} closeConnection={closeConnection}
+              userData={userData}/>}
   </div>
 }
 

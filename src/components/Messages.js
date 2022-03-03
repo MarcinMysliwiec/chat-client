@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 import UserMessage from "./UserMessage";
-import SysMessage from "./SysMessage";
+import BotMessage from "./BotMessage";
 
-const Messages = ({ messages }) => {
+const Messages = ({ messages, userData }) => {
   const messageRef = useRef();
 
   useEffect(() => {
@@ -10,20 +10,15 @@ const Messages = ({ messages }) => {
       const { scrollHeight, clientHeight } = messageRef.current;
       messageRef.current.scrollTo({ left: 0, top: scrollHeight - clientHeight, behavior: "smooth" });
     }
+    console.log('messages', messages)
   }, [messages]);
 
   return <div ref={messageRef} className="message-container">
-    {messages.map((msg, index) =>
-      // <div className='user-message'>
-      //   <div className="message bg-primary">{msg.message}</div>
-      //   <div className="from-user">{msg.user}</div>
-      // </div>
-      {
-        return msg.type === "Message"
-        ? <UserMessage msg={msg} key={index} />
-        : <SysMessage msg={msg} key={index} />
+    {messages.map((msg, index) => {
+        return msg.author.is_bot
+        ? <BotMessage msg={msg} key={index} />
+        : <UserMessage msg={msg} key={index} userData={userData} />
       }
-
     )}
   </div>
 }

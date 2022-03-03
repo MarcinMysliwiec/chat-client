@@ -1,17 +1,42 @@
 import SendMessageForm from "./SendMessageForm";
 import Messages from "./Messages";
-import { Button } from "react-bootstrap";
+import {Button} from "react-bootstrap";
 import ConnectedUsers from "./ConnectedUsers";
+import {useEffect} from "react";
 
-const Chat = ({ sendMessage, messages, users, closeConnection }) => <div>
-  <div className="leave-room">
-    <Button variant="danger" onClick={() => closeConnection()}>Leave Room</Button>
-  </div>
-  <ConnectedUsers users={users} />
-  <div className="chat">
-    <Messages messages={messages}/>
-    <SendMessageForm sendMessage={sendMessage}/>
-  </div>
-</div>
+const URL = "http://localhost";
+const PORT = 3001;
+
+const Chat = ({sendMessage, messages, users, setUsers, closeConnection, userData}) => {
+  useEffect(() => {
+    if(!userData) return 0;
+
+    fetch(`${URL}:${PORT}/users?` + new URLSearchParams({
+      room: userData.room,
+    }))
+      .then(response => response.json())
+      .then(data => {
+        data.push({...userData, socketId: null})
+        setUsers(data);
+      });
+  }, [userData]);
+
+  useEffect(() => {
+    console.log('messages', messages)
+  }, [messages]);
+
+  return (
+    <div>
+      <div className="leave-room">
+        <Button variant="danger" onClick={() => closeConnection()}>Leave Room</Button>
+      </div>
+      <ConnectedUsers users={users} setUsers={setUsers}/>
+      <div className="chat">
+        <Messages messages={messages} userData={userData}/>
+        <SendMessageForm sendMessage={sendMessage}/>
+      </div>
+    </div>
+  )
+}
 
 export default Chat;

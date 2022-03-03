@@ -54,7 +54,7 @@ hr.line {
     margin-bottom: 2px;
 }
 
-.user-message, .sys-message {
+.user-message, .bot-message {
     text-align: right;
     padding-right: 5px;
 }
@@ -65,7 +65,7 @@ hr.line {
 
 .user-message > .message {
     display: inline-flex;
-    margin: 0px auto 0px auto;
+    margin: 0 auto;
     padding: 5px 15px;
     font-size: 1em;
     color: white;
@@ -79,11 +79,11 @@ hr.line {
     margin-right: 5px;
 }
 
-.sys-message {
+.bot-message {
     font-size: 10px;
 }
 
-.sys-message > .message {
+.bot-message > .message {
     color: red;
     margin-top: 3px;
 }
