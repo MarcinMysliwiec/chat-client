@@ -1,6 +1,6 @@
 const BotMessage = ({ msg }) => {
-  return <div className='bot-message'>
-    <div className="message">{msg.message}</div>
+  return <div className='message bot'>
+    <div className={`message ${msg.type=="CONNECTION" ? "connection" : ""} ${msg.type=="DISCONNECTION" ? "disconnection" : ""}`}>{msg.message}</div>
   </div>
 }
 

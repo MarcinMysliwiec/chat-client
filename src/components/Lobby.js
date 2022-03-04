@@ -13,10 +13,10 @@ const Lobby = ({ joinRoom, setUserData }) => {
                } }
   >
     <Form.Group>
-      <Form.Control placeholder="name" onChange={ e => setUsername(e.target.value) }/>
-      <Form.Control placeholder="room" onChange={ e => setRoom(e.target.value) }/>
+      <Form.Control placeholder="Imię" onChange={ e => setUsername(e.target.value) }/>
+      <Form.Control placeholder="Pokój" onChange={ e => setRoom(e.target.value) }/>
     </Form.Group>
-    <Button variant="success" type="submit" disabled={ !username || !room }>Join</Button>
+    <Button className="lobby-button" type="submit" disabled={ !username || !room }>Dołącz</Button>
   </Form>
 }
 

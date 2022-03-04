@@ -70,7 +70,7 @@ const App = () => {
   }
 
   return <div className="app">
-    <h2>MyChat</h2>
+    <h2>Czat</h2>
     <hr className="line"/>
     {!socket
       ? <Lobby joinRoom={joinRoom} setUserData={setUserData}/>

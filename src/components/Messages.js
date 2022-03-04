@@ -10,14 +10,14 @@ const Messages = ({ messages, userData }) => {
       const { scrollHeight, clientHeight } = messageRef.current;
       messageRef.current.scrollTo({ left: 0, top: scrollHeight - clientHeight, behavior: "smooth" });
     }
-    console.log('messages', messages)
   }, [messages]);
 
   return <div ref={messageRef} className="message-container">
     {messages.map((msg, index) => {
+      let nextMessage = messages[index + 1] ? messages[index + 1] : {author:{name:null}}
         return msg.author.is_bot
         ? <BotMessage msg={msg} key={index} />
-        : <UserMessage msg={msg} key={index} userData={userData} />
+        : <UserMessage msg={msg} key={index} userData={userData} nextMessage={nextMessage} />
       }
     )}
   </div>

@@ -21,14 +21,10 @@ const Chat = ({sendMessage, messages, users, setUsers, closeConnection, userData
       });
   }, [userData]);
 
-  useEffect(() => {
-    console.log('messages', messages)
-  }, [messages]);
-
   return (
     <div>
       <div className="leave-room">
-        <Button variant="danger" onClick={() => closeConnection()}>Leave Room</Button>
+        <Button variant="danger" onClick={() => closeConnection()}>Opuść pokój</Button>
       </div>
       <ConnectedUsers users={users} setUsers={setUsers}/>
       <div className="chat">

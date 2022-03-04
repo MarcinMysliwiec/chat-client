@@ -1,31 +1,52 @@
-Form Button {
-    width: 100%;
+html, body, #root {
+    height: 100%;
+}
+
+#root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 h2 {
     color: #313131;
 }
 
-h6 {
-    color: greenyellow;
+Form Button {
+    width: 100%;
 }
 
 hr.line {
     border: 1px solid #313131;
-    width: 175px;
-    margin: 10px auto;
+    width: 50%;
+    margin: 1em auto;
 }
 
 .app {
-    margin: auto;
-    padding-top: 40px;
-    width: 950px;
     text-align: center;
+    padding: 2em;
+    background-color: #cfd8dc;
+    border-radius: 1em;
 }
 
+/* lobby */
 .lobby {
     width: 400px;
     margin: auto;
+}
+
+.lobby .form-control {
+    margin: 1em 0;
+}
+
+.lobby .lobby-button {
+    background-color: #009688;
+    border-color: #26a69a;
+}
+
+.lobby .lobby-button:hover {
+    background-color: #00796b ;
+    border-color: #00897b ;
 }
 
 .chat {
@@ -46,44 +67,68 @@ hr.line {
     margin-right: 4px;
 }
 
+.user-list ul {
+    list-style-type: none;
+    padding: 0;
+    color: #2196f3    ;
+}
+
 .message-container {
     height: 400px;
     background-color: white;
     overflow: auto;
     border-radius: 5px;
     margin-bottom: 2px;
+    padding: 1em 0;
 }
 
-.user-message, .bot-message {
+.message.bot {
+    text-align: center;
+}
+
+.message.user {
+    text-align: left;
+    font-size: 15px;
+    padding: 0 .5em;
+}
+
+.message.user.owner {
     text-align: right;
     padding-right: 5px;
 }
 
-.user-message {
-    font-size: 15px;
-}
-
-.user-message > .message {
+.message.user > .message {
     display: inline-flex;
-    margin: 0 auto;
+    margin: 3px auto 0 auto;
     padding: 5px 15px;
     font-size: 1em;
     color: white;
     border-radius: 20px;
-    margin-top: 3px;
+    background-color: #bdbdbd;
 }
 
-.user-message > .from-user {
+.message.user.owner > .message {
+    background-color: #448aff;
+}
+
+.message.user > .from-user {
     font-size: 0.7rem;
     margin-bottom: 3px;
     margin-right: 5px;
 }
 
-.bot-message {
-    font-size: 10px;
+.message.bot {
+    font-size: .7em;
 }
 
-.bot-message > .message {
-    color: red;
+.message.bot > .message {
     margin-top: 3px;
+}
+
+.message.bot > .connection {
+    color: blue;
+}
+
+.message.bot > .disconnection {
+    color: red;
 }

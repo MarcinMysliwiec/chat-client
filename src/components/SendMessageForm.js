@@ -14,7 +14,7 @@ const SendMessageForm = ({ sendMessage }) => {
       <FormControl type="user" placeholder="message..."
                    onChange={e => setMessage(e.target.value)} value={message}/>
       <InputGroup.Append>
-        <Button variant="primary" type="submit" disabled={!message}>Send</Button>
+        <Button variant="primary" type="submit" disabled={!message}>Wyślij</Button>
       </InputGroup.Append>
     </InputGroup>
   </Form>
