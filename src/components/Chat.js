@@ -4,14 +4,11 @@ import {Button} from "react-bootstrap";
 import ConnectedUsers from "./ConnectedUsers";
 import {useEffect} from "react";
 
-const URL = "http://localhost";
-const PORT = 3001;
-
 const Chat = ({sendMessage, messages, users, setUsers, closeConnection, userData}) => {
   useEffect(() => {
     if(!userData) return 0;
 
-    fetch(`${URL}:${PORT}/users?` + new URLSearchParams({
+    fetch(`${process.env.REACT_APP_BACK_URL}:${process.env.REACT_APP_BACK_PORT}/users?` + new URLSearchParams({
       room: userData.room,
     }))
       .then(response => response.json())

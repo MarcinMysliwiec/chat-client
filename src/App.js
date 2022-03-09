@@ -5,9 +5,6 @@ import Chat from "./components/Chat";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const URL = "chat-backend.mysliw.pl";
-const PORT = 80
-
 const App = () => {
   const [socket, setSocket] = useState();
   const [messages, setMessages] = useState([]);
@@ -20,19 +17,20 @@ const App = () => {
 
   const joinRoom = async (username, room) => {
     try {
-      const socket = io.connect(`${URL}:${PORT}`);
+      const socket = io.connect(`${process.env.REACT_APP_BACK_URL}:${process.env.REACT_APP_BACK_PORT}`);
 
       socket.on("receive_message", (msgObj) => {
-        console.log("receive_message", msgObj)
+        // console.log("receive_message", msgObj)
         pushMessage(msgObj);
       });
 
       socket.on("users_in_room", (users) => {
-        console.log("users_in_room", users)
+        // console.log("users_in_room", users)
         setUsers(users);
       });
 
       socket.on("disconnect", () => {
+        // console.log("disconnect")
         setSocket();
         setMessages([]);
         setUserData({});
@@ -42,7 +40,7 @@ const App = () => {
       socket.emit("join_room", {username, room});
       setSocket(socket);
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }
 
@@ -57,7 +55,7 @@ const App = () => {
       socket.emit("send_message", msgObj);
       pushMessage(msgObj);
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }
 
@@ -65,7 +63,7 @@ const App = () => {
     try {
       socket.disconnect();
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }
 

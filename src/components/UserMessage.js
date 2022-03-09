@@ -1,5 +1,4 @@
 const UserMessage = ({msg, userData, nextMessage}) => {
-  console.log(nextMessage)
   return <div className={`message user ${msg.author.name === userData.username ? "owner" : ""}`}>
     <div className="message">{msg.message}</div>
     {
