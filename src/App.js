@@ -5,8 +5,8 @@ import Chat from "./components/Chat";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const URL = "http://localhost";
-const PORT = 3001
+const URL = "chat-backend.mysliw.pl";
+const PORT = 3002
 
 const App = () => {
   const [socket, setSocket] = useState();
