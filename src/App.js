@@ -1,4 +1,4 @@
-import { useState} from "react";
+import {useState} from "react";
 import io from "socket.io-client";
 import Lobby from "./components/Lobby";
 import Chat from "./components/Chat";
@@ -21,6 +21,11 @@ const App = () => {
 
       socket.on("receive_message", (msgObj) => {
         // console.log("receive_message", msgObj)
+        pushMessage(msgObj);
+      });
+
+      socket.on("receive_bot_message", (msgObj) => {
+        // console.log("receive_bot_message", msgObj)
         pushMessage(msgObj);
       });
 
@@ -48,7 +53,9 @@ const App = () => {
     try {
       const msgObj = {
         room: userData.room,
-        author: {name: userData.username, is_bot: false},
+        type: 'text',
+        is_bot: false,
+        author: userData.username,
         message: message,
         time: new Date().toISOString()
       }
@@ -72,7 +79,8 @@ const App = () => {
     <hr className="line"/>
     {!socket
       ? <Lobby joinRoom={joinRoom} setUserData={setUserData}/>
-      : <Chat sendMessage={sendMessage} messages={messages} users={users} setUsers={setUsers} closeConnection={closeConnection}
+      : <Chat sendMessage={sendMessage} messages={messages} users={users} setUsers={setUsers}
+              closeConnection={closeConnection}
               userData={userData}/>}
   </div>
 }
