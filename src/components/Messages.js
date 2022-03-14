@@ -14,7 +14,7 @@ const Messages = ({ messages, userData }) => {
 
   return <div ref={messageRef} className="message-container">
     {messages.map((msg, index) => {
-      let nextMessage = messages[index + 1] ? messages[index + 1] : {author:{name:null}}
+      let nextMessage = messages[index + 1] ? messages[index + 1] : {author:null}
         return msg.is_bot
         ? <BotMessage msg={msg} key={index} />
         : <UserMessage msg={msg} key={index} userData={userData} nextMessage={nextMessage} />
