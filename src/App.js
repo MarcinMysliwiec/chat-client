@@ -2,7 +2,6 @@ import {useState} from "react";
 import io from "socket.io-client";
 import Lobby from "./components/Lobby";
 import Chat from "./components/Chat";
-import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
@@ -75,7 +74,9 @@ const App = () => {
   }
 
   return <div className="app">
-    <h2>Czat</h2>
+    <a href="https://chat.mysliw.pl"><h1>Czat</h1></a>
+    <h2>Real time chat is a new feature on the web, and it can be a powerful tool for businesses and organizations. Find
+      out how to make the most of it.</h2>
     <hr className="line"/>
     {!socket
       ? <Lobby joinRoom={joinRoom} setUserData={setUserData}/>

@@ -6,7 +6,7 @@ import {useEffect} from "react";
 
 const Chat = ({sendMessage, messages, users, setUsers, closeConnection, userData}) => {
   useEffect(() => {
-    if(!userData) return 0;
+    if (!userData) return 0;
 
     fetch(`${process.env.REACT_APP_BACK_URL}:${process.env.REACT_APP_BACK_PORT}/users?` + new URLSearchParams({
       room: userData.room,
@@ -16,7 +16,7 @@ const Chat = ({sendMessage, messages, users, setUsers, closeConnection, userData
         data.push({...userData, socketId: null})
         setUsers(data);
       });
-  }, [userData]);
+  }, [userData, setUsers]);
 
   return (
     <div>
