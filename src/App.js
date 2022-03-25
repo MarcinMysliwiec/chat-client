@@ -1,8 +1,8 @@
-import {useState} from "react";
-import io from "socket.io-client";
-import Lobby from "./components/Lobby";
-import Chat from "./components/Chat";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { useState } from 'react';
+import io from 'socket.io-client';
+import Lobby from './components/Lobby';
+import Chat from './components/Chat';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
   const [socket, setSocket] = useState();
@@ -12,41 +12,37 @@ const App = () => {
 
   const pushMessage = (msgObj) => {
     setMessages(messages => [...messages, msgObj]);
-  }
+  };
 
   const joinRoom = async (username, room) => {
     try {
       const socket = io.connect(`${process.env.REACT_APP_BACK_URL}:${process.env.REACT_APP_BACK_PORT}`);
 
-      socket.on("receive_message", (msgObj) => {
-        // console.log("receive_message", msgObj)
+      socket.on('receive_message', (msgObj) => {
         pushMessage(msgObj);
       });
 
-      socket.on("receive_bot_message", (msgObj) => {
-        // console.log("receive_bot_message", msgObj)
+      socket.on('receive_bot_message', (msgObj) => {
         pushMessage(msgObj);
       });
 
-      socket.on("users_in_room", (users) => {
-        // console.log("users_in_room", users)
+      socket.on('users_in_room', (users) => {
         setUsers(users);
       });
 
-      socket.on("disconnect", () => {
-        // console.log("disconnect")
+      socket.on('disconnect', () => {
         setSocket();
         setMessages([]);
         setUserData({});
         setUsers([]);
       });
 
-      socket.emit("join_room", {username, room});
+      socket.emit('join_room', { username, room });
       setSocket(socket);
     } catch (e) {
       console.error(e);
     }
-  }
+  };
 
   const sendMessage = async (message) => {
     try {
@@ -57,13 +53,13 @@ const App = () => {
         author: userData.username,
         message: message,
         time: new Date().toISOString()
-      }
-      socket.emit("send_message", msgObj);
+      };
+      socket.emit('send_message', msgObj);
       pushMessage(msgObj);
     } catch (e) {
       console.error(e);
     }
-  }
+  };
 
   const closeConnection = async () => {
     try {
@@ -71,7 +67,7 @@ const App = () => {
     } catch (e) {
       console.error(e);
     }
-  }
+  };
 
   return <div className="app">
     <a href="https://chat.mysliw.pl"><h1>Czat</h1></a>
@@ -83,7 +79,7 @@ const App = () => {
       : <Chat sendMessage={sendMessage} messages={messages} users={users} setUsers={setUsers}
               closeConnection={closeConnection}
               userData={userData}/>}
-  </div>
-}
+  </div>;
+};
 
 export default App;

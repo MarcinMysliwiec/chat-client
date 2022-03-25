@@ -1,10 +1,10 @@
-import SendMessageForm from "./SendMessageForm";
-import Messages from "./Messages";
-import {Button} from "react-bootstrap";
-import ConnectedUsers from "./ConnectedUsers";
-import {useEffect} from "react";
+import SendMessageForm from './SendMessageForm';
+import Messages from './Messages';
+import { Button } from 'react-bootstrap';
+import ConnectedUsers from './ConnectedUsers';
+import { useEffect } from 'react';
 
-const Chat = ({sendMessage, messages, users, setUsers, closeConnection, userData}) => {
+const Chat = ({ sendMessage, messages, users, setUsers, closeConnection, userData }) => {
   useEffect(() => {
     if (!userData) return 0;
 
@@ -13,13 +13,12 @@ const Chat = ({sendMessage, messages, users, setUsers, closeConnection, userData
     }))
       .then(response => response.json())
       .then(data => {
-        data.push({...userData, socketId: null})
+        data.push({ ...userData, socketId: null });
         setUsers(data);
       });
   }, [userData, setUsers]);
 
-  return (
-    <div>
+  return (<div>
       <div className="leave-room">
         <Button variant="danger" onClick={() => closeConnection()}>Opuść pokój</Button>
       </div>
@@ -28,8 +27,7 @@ const Chat = ({sendMessage, messages, users, setUsers, closeConnection, userData
         <Messages messages={messages} userData={userData}/>
         <SendMessageForm sendMessage={sendMessage}/>
       </div>
-    </div>
-  )
-}
+    </div>);
+};
 
 export default Chat;
